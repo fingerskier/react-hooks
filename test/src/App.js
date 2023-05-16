@@ -1,22 +1,18 @@
 import { useState } from "react"
 import K from './Constants'
 import TestMQTT from "./gui/TestMQTT"
+import TestStateMachine from "./gui/TestStateMachine"
 import TestWebUSB from "./gui/TestWebUSB"
 
 
 function App() {
-  const [visibility, setVisibility] = useState([])
+  const [visibility, setVisibility] = useState({})
   
   
   const setVisible = index=>{
-    const I = Object.keys(K).findIndex(X=>K[X]===index)
+    visibility[index] = !visibility[index]
     
-    visibility.fill(false)
-    visibility[I] = true
-
-    console.log('VIZ', index, I, visibility)
-    
-    setVisibility([...visibility])
+    setVisibility({...visibility})
   }
   
   
@@ -26,16 +22,31 @@ function App() {
     title,
     visible=false,
   }) {
-    if (visible) return <div>
-      {children}
+    return <div>
+      <hr />
+      <h2>{title}</h2>
+      <button onClick={E=>setVisible(index)}>
+        {visible? 'Hide' : 'Show'}
+      </button>
+      
+      {visible && children? children : <></>}
+      <hr />
     </div>
-    else return <button onClick={E=>setVisible(index)}>
-      Show {title}
-    </button>
   }
   
   
   return <>
+    <h1>fingerskier React hooks</h1>
+    {JSON.stringify(visibility)}
+    
+    <AccordionFold 
+      index={K.STATEMACHINE}
+      title="useStateMachine"
+      visible={visibility[K.STATEMACHINE]}
+    >
+      <TestStateMachine />
+    </AccordionFold>
+    
     <AccordionFold 
       index={K.MQTT}
       title="MQTT Client"

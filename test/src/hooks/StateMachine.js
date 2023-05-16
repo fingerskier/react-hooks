@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {React, useEffect, useRef, useState} from 'react'
 import FSM from 'stateinator'
 import useInterval from './useInterval'
 
@@ -6,6 +6,8 @@ import useInterval from './useInterval'
 export default function({
   children,
   cycleTime=1000,
+  initialState,
+  setState,
   tickHandler,
 }) {
   /**
@@ -17,14 +19,22 @@ export default function({
    * 
    * Each child also gets a goto function, via the 'goto' prop, that can be called to transition to another state.
    */
-
+  
   const SM = useRef(new FSM())
+  
   const [currentState, setCurrentState] = useState('')
+  const [state, setInternalState] = useState()
   
   
-  useEffect(()=>{
+  const goto = stateName=>{
+    SM.current.goto(stateName)
+  }
+  
+  
+  useEffect(() => {
     SM.current.verbose = true
     
+    // whenever the states/children are updated we reinitialize the states and transitions
     children.forEach(child=>{
       SM.current.addState(child.props.name, {
         onEnter: child.props.onEnter,
@@ -38,26 +48,29 @@ export default function({
         })
       }
       
-      child.props.goto = SM.current.goto.bind(SM.current)
+      if (child.props.goto) child.props.goto = goto
     })
+    
+    if (initialState) SM.current.goto(initialState)
+    
+    return () => {
+    }
   }, [])
+  
+  
+  useEffect(() => {
+    if (setState) setInternalState(state)
+  }, [state])
   
   
   useInterval(()=>{
     setCurrentState(SM.current.state.name)
+    
     let updateResult = SM.current.update()
     
     if (tickHandler) tickHandler(updateResult)
   }, cycleTime)
   
   
-  return <>
-    {
-      children.map(child=>{
-        if (child.props.name === currentState) return <>
-          {child}
-        </>
-      })
-    }
-  </>
+  return children.filter(child=>child.props.name === currentState)
 }

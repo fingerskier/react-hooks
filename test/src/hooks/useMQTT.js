@@ -13,7 +13,7 @@ export default function({
   const mqttLoaded = useExternalLibrary('https://unpkg.com/mqtt/dist/mqtt.min.js')
   
   const client = useRef()
-
+  
   const [data, setData] = useState({})
   const [state, setState] = useState({})
   
@@ -61,7 +61,12 @@ export default function({
       
       
       return () => {
-        // client.current.disconnect()
+        // console.log((client.current))
+        // try {
+        //   client.current.close()
+        // } catch (error) {
+        //   console.log('MQTT CLIENT DISCONX FAIL', error)
+        // }
       }
     }
   }, [mqttLoaded])

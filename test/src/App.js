@@ -1,5 +1,6 @@
 import { useState } from "react"
 import K from './Constants'
+import TestLocation from "./gui/TestLocation"
 import TestMQTT from "./gui/TestMQTT"
 import TestStateMachine from "./gui/TestStateMachine"
 import TestWebUSB from "./gui/TestWebUSB"
@@ -37,7 +38,14 @@ function App() {
   
   return <>
     <h1>fingerskier React hooks</h1>
-    {JSON.stringify(visibility)}
+    
+    <AccordionFold 
+      index={K.LOCATION}
+      title="useLocation"
+      visible={visibility[K.LOCATION]}
+    >
+      <TestLocation />
+    </AccordionFold>
     
     <AccordionFold 
       index={K.STATEMACHINE}

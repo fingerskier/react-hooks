@@ -68,8 +68,8 @@ export default function() {
   
 
   return <>
-    <h1>useStatemachine</h1>
-
+    <h3>Finite State Machine Example</h3>
+    
     <div>Current state: {state}</div>
     
     <Content />

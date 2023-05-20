@@ -5,6 +5,7 @@ const K = {}
 
 K.BROADCASTMESSAGE = I++
 K.GLOBAL = I++
+K.HASH = I++
 K.INTERVAL = I++
 K.LOCALSTORAGE = I++
 K.LOCATION = I++

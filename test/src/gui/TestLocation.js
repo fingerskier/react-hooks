@@ -4,7 +4,7 @@ import useLocation from '../hooks/useLocation.js'
 
 export default function() {
   const {hash, location} = useLocation()
-
+  
   return <div>
     <h3>Location & Hash Watching</h3>
 

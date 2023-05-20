@@ -8,7 +8,6 @@ export default function() {
   const on = (key,handler)=>{
     fx[key] = handler
     setFx({ ...fx })
-    console.log('hash hand reg', fx)
   }
   
   
@@ -31,9 +30,7 @@ export default function() {
   
   useEffect(() => {
     if (hash) {
-      console.log('hash changed', hash, fx)
       if (fx?.[hash]) {
-        console.log('hash handler', hash, fx[hash])
         return fx[hash](hash)
       }
     }

@@ -1,6 +1,7 @@
 import { useState } from "react"
 import K from './Constants'
 import TestHash from "./gui/TestHash"
+import TestKeyboard from "./gui/TestKeyboard"
 import TestMQTT from "./gui/TestMQTT"
 import TestStateMachine from "./gui/TestStateMachine"
 import TestWebUSB from "./gui/TestWebUSB"
@@ -38,6 +39,23 @@ function App() {
   
   return <>
     <h1>fingerskier React hooks</h1>
+    
+    
+    <AccordionFold 
+      index={K.KEYBOARD}
+      title="useKeyboard"
+      visible={visibility[K.KEYBOARD]}
+    >
+      <TestKeyboard />
+    </AccordionFold>
+    
+    <AccordionFold 
+      index={K.HASH}
+      title="useHash"
+      visible={visibility[K.HASH]}
+    >
+      <TestHash />
+    </AccordionFold>
     
     <AccordionFold 
       index={K.HASH}
